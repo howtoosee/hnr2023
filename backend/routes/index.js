@@ -12,7 +12,7 @@ router.get("", function (req, res, next) {
 router.get(
   "/summary",
   asyncHandler((req, res, next) => {
-    summary = "YAY";
+    summary = { done: true, summary: "YAY" };
     return res.json(summary).status(200);
   })
 );
