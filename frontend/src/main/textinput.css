@@ -15,7 +15,20 @@
     flex-direction: row;
     align-items: center;
     width: 60%;
-    margin-top: 15px;
+}
+
+.Main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.Paragraph {
+    width: 75%;
+    margin-top: 60px;
+    font-size: 15px;
 }
 
 .TextInput {
@@ -25,4 +38,8 @@
     border: 2px solid #282c34;
     border-radius: 25px;
     padding-left: 15px;
+}
+
+.TextInput:focus {
+    outline: none
 }
