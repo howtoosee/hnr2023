@@ -62,8 +62,8 @@ const assembly_summarise = async function(file, language_code = "en") {
     }
 
     return {
-        transcription: curr_status.text,
-        summary: curr_status.summary,
+        transcription: curr_status.text || "",
+        summary: curr_status.summary || "",
     };
 }
 
