@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { TailSpin } from "react-loader-spinner";
+
 import axios from 'axios';
 import './textinput.css';
 
 const MainComponent = () => {
     const [link, setLink] = useState("");
     const [paragraph, setParagraph] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
 
     const onClick = async () => {
+        setIsLoading(true);
         setParagraph("");
         let isGenerated = false;
 
@@ -39,6 +43,8 @@ const MainComponent = () => {
                 return;
             }
         }
+
+        setIsLoading(false);
     }
 
     return (
@@ -53,9 +59,18 @@ const MainComponent = () => {
                     onClick={onClick}>Go!
                 </button>
             </div>
-            <p className='Paragraph'>
-                {paragraph}
-            </p>
+        {isLoading ?
+            <TailSpin
+                height={30}
+                width={30}
+                color="pink"
+                ariaLabel="tail-spin-loading"
+                radius={1}
+                wrapperStyle={{marginTop: 50}}
+                wrapperClass=""
+                visible={true}
+            />
+            : <p className='Paragraph'>{paragraph}</p>}
         </div>
     );
 }

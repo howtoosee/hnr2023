@@ -2,7 +2,6 @@ import React from 'react';
 import './header.css';
 
 const WelcomeHeader = () => {
-    
     return (
         <div>
             <p>
