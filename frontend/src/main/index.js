@@ -10,6 +10,7 @@ const MainComponent = () => {
     const sleep = ms => new Promise(r => setTimeout(r, ms));
 
     const onClick = async () => {
+        setParagraph("");
         setIsGenerated(false);
 
         if (!link) {
