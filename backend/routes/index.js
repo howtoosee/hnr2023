@@ -39,7 +39,7 @@ router.post(
     }
 
     processLink(link);
-
+    
     return res.sendStatus(200);
   })
 );

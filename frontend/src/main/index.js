@@ -8,28 +8,38 @@ const MainComponent = () => {
     const [isGenerated, setIsGenerated] = useState(false);
 
     const ref = useRef(null);
-
     const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-    const onClick = () => {
-        setLink(ref.current.value);
+    const onClick = async () => {
+        setIsGenerated(false);
+        setLink(ref.current.value.toString());
 
-        const postLink = `localhost:3000/summary?link=${link}`;
-        axios.post(postLink)
-            .catch((err) => {
-                console.error(err)
-            });
+        if (!link) {
+            console.error("invalid link, empty string")
+            return;
+        }
+
+        const postLink = `http://localhost:3000/summary?link=${link}`;
+        try {
+            await axios.post(postLink);
+        } catch (err) {
+            console.error(err);
+            return;
+        }
 
         while (!isGenerated) {
-            axios.get(postLink)
-            .then((res) => {
+            try {
+                const res = await axios.get(postLink);
                 if (res.data.done) {
                     setIsGenerated(true);
                     setParagraph(res.data.summary)
                 }
-            })
+            } catch (err) {
+                console.error(err);
+                return;
+            }
 
-            sleep(10);
+            await sleep(10000);
         }
     }
 
