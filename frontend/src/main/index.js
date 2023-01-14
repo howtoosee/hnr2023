@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './textinput.css';
 
@@ -7,19 +7,18 @@ const MainComponent = () => {
     const [paragraph, setParagraph] = useState("");
     const [isGenerated, setIsGenerated] = useState(false);
 
-    const ref = useRef(null);
     const sleep = ms => new Promise(r => setTimeout(r, ms));
 
     const onClick = async () => {
+        setParagraph("");
         setIsGenerated(false);
-        setLink(ref.current.value.toString());
 
         if (!link) {
             console.error("invalid link, empty string")
             return;
         }
 
-        const postLink = `http://localhost:3000/summary?link=${link}`;
+        const postLink = `http://localhost:3000/summary?link=${String(link)}`;
         try {
             await axios.post(postLink);
         } catch (err) {
@@ -47,10 +46,9 @@ const MainComponent = () => {
         <div className='Main'>
             <div className='Input'>
                 <input
-                    ref={ref}
                     className='TextInput' 
                     type='text'
-                    onChange={setLink}/>
+                    onChange={(link) => setLink(link.target.value)}/>
                 <button 
                     className='GoButton'
                     onClick={onClick}>Go!
