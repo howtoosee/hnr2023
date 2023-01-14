@@ -33,16 +33,20 @@ router.post("/summary", (req, res, next) => {
     return res.sendStatus(400);
   }
 
-  processLink(link).then((buffer) => {
-    summarise(buffer).then((data) => {
-      if (!data) {
-        return;
-      }
+  summary = getSummary(link);
 
-      const { summary } = data;
-      addSummary(link, summary);
+  if (!summary) {
+    processLink(link).then((buffer) => {
+      summarise(buffer).then((data) => {
+        if (!data) {
+          return;
+        }
+  
+        const { summary } = data;
+        addSummary(link, summary);
+      });
     });
-  });
+  }
 
   return res.sendStatus(200);
 });
