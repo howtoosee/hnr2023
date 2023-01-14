@@ -1,4 +1,4 @@
-import { upload_file } from "./upload";
+const { upload_file } = require("./upload.js");
 const axios = require("axios");
 
 

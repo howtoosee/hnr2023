@@ -1,4 +1,3 @@
-
 const axios = require("axios");
 const fs = require("fs");
 
@@ -10,9 +9,7 @@ const assembly = axios.create({
     },
 });
 
-
-
-export const upload_file = function(file_path) {
+const upload_file = function(file_path) {
     let uploaded_url = "";
 
     fs.readFile(file_path, (err, data) => {
