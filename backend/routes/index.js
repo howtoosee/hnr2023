@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const asyncHandler = require("express-async-handler");
+const { getSummary } = require("../db/summary");
 
 var { processLink } = require("../transcription/index");
 
@@ -12,8 +13,19 @@ router.get("", function (req, res, next) {
 router.get(
   "/summary",
   asyncHandler((req, res, next) => {
-    summary = { done: true, summary: "YAY" };
-    return res.json(summary).status(200);
+    const link = req.query.link;
+
+    if (!link) {
+      return res.sendStatus(400);
+    }
+
+    summary = getSummary(link);
+
+    data = {
+      done: !!summary,
+      summary: summary || "",
+    };
+    return res.json(data).status(200);
   })
 );
 
