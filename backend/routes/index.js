@@ -1,9 +1,28 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+var { processLink } = require("../transcription/index");
+
+// Health Check
+router.get("", function (req, res, next) {
+  return res.sendStatus(200);
+});
+
+router.get("/summary", function (req, res, next) {
+  summary = "YAY";
+  return res.json(summary).status(200);
+});
+
+router.post("/summary", function (req, res, next) {
+  const link = req.query.link;
+
+  if (!link) {
+    return res.sendStatus(400);
+  }
+
+  processTranscription(link);
+
+  return res.sendStatus(200);
 });
 
 module.exports = router;
