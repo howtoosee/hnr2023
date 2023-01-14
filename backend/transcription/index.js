@@ -6,8 +6,9 @@ const processLink = async (link) => {
 
   var newLink = link.split("v=")[1];
 
-  video.pipe(fs.createWriteStream("temp/audio/" + newLink + ".mp4"));
-  const buffer = fs.readFileSync("temp/audio/" + newLink + ".mp4");
+  const path = "temp/audio/" + newLink + ".mp4";
+  video.pipe(fs.createWriteStream(path));
+  const buffer = fs.readFileSync(path);
   return buffer;
 };
 

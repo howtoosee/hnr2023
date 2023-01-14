@@ -1,5 +1,6 @@
 const axios = require("axios");
 const fs = require("fs");
+require("dotenv").config();
 
 const assembly = axios.create({
     baseURL: "https://api.assemblyai.com/v2",

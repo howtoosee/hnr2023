@@ -6,6 +6,8 @@ const sleep = function(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+require("dotenv").config();
+
 
 const assembly = axios.create({
     baseURL: "https://api.assemblyai.com/v2",
@@ -14,7 +16,7 @@ const assembly = axios.create({
     },
 });
 
-const assembly_summarise = async function(file) {
+const assembly_summarise = async function(file, language_code = "en") {
     const terminating_statuses = ["completed", "error"];
     const url = await upload_file(file);
 
@@ -27,6 +29,7 @@ const assembly_summarise = async function(file) {
         return await assembly
             .post("/transcript", {
                 audio_url: url,
+                language_code: language_code,
                 summarization: true,
                 summary_model: "informative",
                 summary_type: "bullets_verbose"
@@ -37,7 +40,7 @@ const assembly_summarise = async function(file) {
 
     let curr_status = await start_processing();
     const start_time = performance.now();
-    console.info("Starting status:", curr_status);
+    console.info(`Starting AI transcription and summarisation with language '${language_code}'`);
 
     const get_status = async function() {
         return await assembly
@@ -55,10 +58,13 @@ const assembly_summarise = async function(file) {
     }
     
     if (curr_status.status == "error") {
-        return console.error("AI error in transcription:", curr_status);
+        return console.error("AI processing error:", curr_status.error);
     }
 
-    return curr_status.text;
+    return {
+        transcription: curr_status.text,
+        summary: curr_status.summary,
+    };
 }
 
 module.exports = {
