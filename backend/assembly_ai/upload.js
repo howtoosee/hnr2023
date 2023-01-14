@@ -9,21 +9,12 @@ const assembly = axios.create({
     },
 });
 
-const upload_file = function(file_path) {
-    let uploaded_url = "";
+const upload_file = async function(file) {
+    const uploaded_url = await assembly
+        .post("/upload", file)
+        .then((res) => res.data.upload_url)
+        .catch((err) => console.error(err));
 
-    fs.readFile(file_path, (err, data) => {
-        if (err) {
-            return console.error(err);
-        }
-    
-        assembly
-            .post("/upload", data)
-            .then((res) => {uploaded_url = res.data})
-            .catch((err) => console.error(err));
-    });
-
-    console.info("File uploaded to: ", uploaded_url);
     return uploaded_url;
 }
 
