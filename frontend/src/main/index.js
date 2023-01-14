@@ -5,13 +5,12 @@ import './textinput.css';
 const MainComponent = () => {
     const [link, setLink] = useState("");
     const [paragraph, setParagraph] = useState("");
-    const [isGenerated, setIsGenerated] = useState(false);
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
 
     const onClick = async () => {
         setParagraph("");
-        setIsGenerated(false);
+        let isGenerated = false;
 
         if (!link) {
             console.error("invalid link, empty string")
@@ -30,15 +29,15 @@ const MainComponent = () => {
             try {
                 const res = await axios.get(postLink);
                 if (res.data.done) {
-                    setIsGenerated(true);
+                    isGenerated = true
                     setParagraph(res.data.summary)
+                } else {
+                    await sleep(10000);
                 }
             } catch (err) {
                 console.error(err);
                 return;
             }
-
-            await sleep(10000);
         }
     }
 
