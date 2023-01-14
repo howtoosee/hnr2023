@@ -7,10 +7,10 @@ const processLink = async (link) => {
     var newLink = link.split("v=")[1];
 
     video.pipe(fs.createWriteStream("temp/audio/" + newLink + ".mp4"));
-
-    var buffer = fs.readFile("temp/audio/" + newLink + ".mp4", (err, data) => {
+    var buffer;
+    await fs.readFile("temp/audio/" + newLink + ".mp4", (err, data) => {
         if (err) throw err;
-        console.log(data);
+        buffer = data; //todo xh do this hehe xd
     });
 };
 
