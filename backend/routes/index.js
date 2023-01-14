@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const asyncHandler = require("express-async-handler");
 
 var { processLink } = require("../transcription/index");
 
@@ -8,21 +9,27 @@ router.get("", function (req, res, next) {
   return res.sendStatus(200);
 });
 
-router.get("/summary", function (req, res, next) {
-  summary = "YAY";
-  return res.json(summary).status(200);
-});
+router.get(
+  "/summary",
+  asyncHandler((req, res, next) => {
+    summary = "YAY";
+    return res.json(summary).status(200);
+  })
+);
 
-router.post("/summary", function (req, res, next) {
-  const link = req.query.link;
+router.post(
+  "/summary",
+  asyncHandler((req, res, next) => {
+    const link = req.query.link;
 
-  if (!link) {
-    return res.sendStatus(400);
-  }
+    if (!link) {
+      return res.sendStatus(400);
+    }
 
-  processTranscription(link);
+    processLink(link);
 
-  return res.sendStatus(200);
-});
+    return res.sendStatus(200);
+  })
+);
 
 module.exports = router;

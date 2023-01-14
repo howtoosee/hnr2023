@@ -1,4 +1,4 @@
-const processLink = (link) => {
+const processLink = async (link) => {
   console.log("Hello");
 };
 
